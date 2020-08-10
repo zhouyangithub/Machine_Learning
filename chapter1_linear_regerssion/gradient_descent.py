@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 x = np.linspace(-4,2,100)
 y = x**2 + 2*x + 5
 plt.plot(x,y)
-#plt.show()
 #init x,a,number of times
 x = 3
 alpha = 0.8
