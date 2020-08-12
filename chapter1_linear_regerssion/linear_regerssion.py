@@ -15,12 +15,18 @@ def gradient_descent(X,y,iteration = 400,alpha = 0.02):
         for j in range(n):
             theta[j]+=(alpha/m)*np.sum((y-X@theta)*X[:,j])
     return theta
+def featureNormalize(X):
+    mu,sigma = X[:,1].mean(),X[:,1].std(ddof = 1)
+    X[:,1] = (X[:,1]-mu)/sigma
+def drawFigure(X,y,theta):
+    plt.scatter(X[:,1],y)
+    a = np.column_stack((np.ones(100),np.linspace(X[:,1].min(),X[:,1].max(),100)))
+    b = a@theta
+    plt.plot(a[:,1],b,label = "predict",c = 'r')
+    plt.legend()
+    plt.show()
 X,y = load_data()
+featureNormalize(X)
 theta = gradient_descent(X,y)
-plt.scatter(X[:,1],y)
-x= np.linspace(5,25,100)
-y = theta[0]+x*theta[1]
-plt.plot(x,y,label = "predict",c = 'r')
-plt.legend()
-plt.show()
+drawFigure(X,y,theta)
 print(theta)
