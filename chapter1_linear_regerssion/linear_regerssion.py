@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt  
 #load data
 def load_data():
-    data = np.loadtxt("D:\Machine_Learning\chapter1_linear_regerssion\data1.txt",delimiter=",")
+    data = np.loadtxt(r"D:\Machine_Learning\chapter1_linear_regerssion\data1.txt",delimiter=",")
     X = np.column_stack((np.ones(data.shape[0]),data[:,0]))
     y = data[:,1]
     return X,y
