@@ -9,10 +9,12 @@ def linear_loss(X,y,w,b):
     dw = np.dot(X.T,(y_hat-y))/num_train
     db = np.sum((y_hat-y))/num_train
     return y_hat,loss,dw,db
+
 def initialize_params(dims):
     w = np.zeros(dims)
     b = 0
     return w,b
+
 def linear_train(X,y,learning_rate = 0.01,epochs = 10000):
     loss_his = []
     w,b = initialize_params(X.shape[1])
@@ -33,6 +35,19 @@ def linear_train(X,y,learning_rate = 0.01,epochs = 10000):
         }
     return loss_his,params,grads
 
+def predict(X,params):
+    w = params['w']
+    b = params['b']
+    y_pred = X@w+b
+    return y_pred
+
+def r2_score(y_test,y_pred):
+    y_avg = np.mean(y_test)
+    ss_tot = np.sum((y_test-y_avg)**2)
+    ss_res = np.sum((y_test-y_pred)**2)
+    r2 = 1-(ss_res/ss_tot)
+    return r2
+
 from sklearn.datasets import load_diabetes
 from sklearn.utils import shuffle
 diabetes = load_diabetes()
@@ -47,3 +62,5 @@ print("y_train's shape:",y_train.shape)
 print("y_test's shape:",X_test.shape)
 loss_hit,params,grads = linear_train(X_train,y_train,0.01,200000)
 print(params)
+y_pred = predict(X_test,params)
+print(r2_score(y_test,y_pred))
