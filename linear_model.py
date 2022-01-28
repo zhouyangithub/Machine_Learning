@@ -1,4 +1,5 @@
-import numpy as np 
+import numpy as np
+from sklearn import datasets 
 def linear_loss(X,y,w,b):
     num_train = X.shape[0]
     num_feature = X.shape[1]
@@ -29,4 +30,19 @@ def linear_train(X,y,learning_rate = 0.01,epochs = 10000):
             "dw":dw,
             "db":db
         }
-        return loss_his,params,grads
+    return loss_his,params,grads
+
+from sklearn.datasets import load_diabetes
+from sklearn.utils import shuffle
+diabetes = load_diabetes()
+data,target = diabetes.data,diabetes.target
+X,y = shuffle(data,target,random_state=13)
+offset = int(X.shape[0]*0.8)
+X_train,y_train = X[:offset],y[:offset]
+X_test,y_test = X[offset:],y[offset:]
+print("X_train's shape:",X_train.shape)
+print("X_test's shape:",X_test.shape)
+print("y_train's shape:",y_train.shape)
+print("y_test's shape:",X_test.shape)
+loss_hit,params,grads = linear_train(X_train,y_train,0.01,200000)
+print(params)
