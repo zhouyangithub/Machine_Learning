@@ -1,5 +1,6 @@
 import numpy as np
 from sklearn import datasets 
+
 def linear_loss(X,y,w,b):
     num_train = X.shape[0]
     num_feature = X.shape[1]
@@ -9,7 +10,7 @@ def linear_loss(X,y,w,b):
     db = np.sum((y_hat-y))/num_train
     return y_hat,loss,dw,db
 def initialize_params(dims):
-    w = np.zeros((dims,1))
+    w = np.zeros(dims)
     b = 0
     return w,b
 def linear_train(X,y,learning_rate = 0.01,epochs = 10000):
