@@ -37,6 +37,6 @@ def logistic_train(X,y,learning_rate,epochs):
         "db":db
     }
     return cost_list,params,grads
+
 def predict(X,params):
     y_pred = sigmod(np.dot(X,params["W"])+params["b"])
-    
