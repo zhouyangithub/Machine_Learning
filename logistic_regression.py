@@ -1,4 +1,5 @@
 import numpy as np
+import seaborn as sns
 def sigmod(x):
     z = 1/(1+np.exp(-x))
     return z
@@ -13,7 +14,7 @@ def logistic(X,y,W,b):
     num_feature = X.shape[1]
     a = sigmod(X@W+b)
     cost = -1/num_train * np.sum(y*np.log(a)+(1-y)*np.log(1-a))
-    dW = (X.T@(a-y).reshape(90))/num_train
+    dW = (X.T@(a-y.reshape(-1)))/num_train
     db = np.sum(a-y)/num_train
     cost = np.squeeze(cost)
     return a,cost,dW,db
@@ -49,9 +50,9 @@ from sklearn.datasets._samples_generator import make_classification
 X,labels = make_classification(n_samples=100,n_features=2,n_redundant=0,n_informative=2,random_state=1,n_clusters_per_class=2)
 rng = np.random.RandomState(2)
 X += 2*rng.uniform(size = X.shape)
-plt.scatter(X[labels == 0,0],X[labels == 0,1])
-plt.scatter(X[labels == 1,0],X[labels == 1,1])
-#plt.show()
+sns.kdeplot(X[labels == 0,0],X[labels == 0,1],thresh=0.3)
+sns.kdeplot(X[labels == 1,0],X[labels == 1,1],thresh=0.3)
+
 offset = int(X.shape[0]*0.9)
 X_train,y_train = X[:offset],labels[:offset]
 X_test,y_test = X[offset:],labels[offset:]
@@ -62,3 +63,11 @@ cost_list,params,grads = logistic_train(X_train,y_train,0.01,1000)
 print(params)
 y_pred = predict(X_test,params)
 print(y_pred)
+
+x = np.arange(-1.5,3,0.1)
+y = (-params['b']-params["W"][0]*x)/params["W"][1]
+plt.plot(x,y,c = "k")
+plt.show()
+
+from sklearn.metrics import classification_report
+print(classification_report(y_test,y_pred))
